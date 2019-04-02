@@ -28,12 +28,12 @@ class GameBIND(Game):
         """
         self.pi = self.p()
 
-    def finalize(self, (c, m0, m1, k0, k1)):
+    def finalize(self, args):
         """
         This method determines whether the game was won or lost by checking it
         to see if the adversary was able to construct two (m, k) pairs with the
         same commitment.
-
+        :param args: (c,m0,m1,k0,k1)
         :param c: Target commitment for (m, k) pairs.
         :param m0: Message 1
         :param m1: Message 2
@@ -41,6 +41,7 @@ class GameBIND(Game):
         :param k1: Verification parameter 2
         :return: True on win, False otherwise.
         """
+        (c, m0, m1, k0, k1) = args
         v0 = self.v(self.pi, c, m0, k0)
         v1 = self.v(self.pi, c, m1, k1)
 

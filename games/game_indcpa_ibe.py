@@ -60,4 +60,4 @@ class GameINDCPAIBE(Game):
 
     def __del__(self):
         if self.warning != '':
-            print self.warning
+            print (self.warning)

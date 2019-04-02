@@ -25,7 +25,7 @@ class UFCMASim(BaseSim):
         :return: successes / total_runs
         """
         results = []
-        for i in xrange(0, n):
+        for i in range(0, n):
             results += [self.run()]
 
         successes = float(results.count(1))

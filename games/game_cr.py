@@ -35,7 +35,7 @@ class GameCR(game.Game):
             self.key = self.key_gen()
         return self.key
 
-    def finalize(self, (x1, x2)):
+    def finalize(self, x):
         """
         This method is called by the simulator class to determine whether or not
         the adversary produced the correct output.
@@ -44,6 +44,7 @@ class GameCR(game.Game):
         :param x2: Suspect collision member 2.
         :return: True if collision, false otherwise.
         """
+        (x1,x2) = x
         if x1 == x2 or self.hash(self. key, x1) == None:
             return False
         return self.hash(self. key, x1) == self.hash(self.key, x2)

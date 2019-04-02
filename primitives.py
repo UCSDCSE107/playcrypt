@@ -21,7 +21,7 @@ def random_string_bits(bits):
     :param bits: How long string should be in bits.
     :return: Random string of bit length ``floor(bits/8)``.
     """
-    return random_string((bits / 8))
+    return random_string((bits // 8))
 
 
 def AES(k, m):

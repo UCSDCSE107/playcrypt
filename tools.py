@@ -1,5 +1,5 @@
 from functools import partial
-from StringIO import StringIO
+from io import StringIO
 
 import random
 
@@ -73,7 +73,7 @@ def split(s, n=None):
     :return s[]: an array of the portions of s
     """
     if n is None:
-        return [s[:len(s) / 2], s[len(s) / 2:]]
+        return [s[:len(s) // 2], s[len(s) // 2:]]
     else:
         return [l for l in iter(partial(StringIO(s).read, n), '')]
 
@@ -172,7 +172,7 @@ def is_prime(n, _precision_for_huge_n=16):
     if any((n % p) == 0 for p in is_prime._known_primes):
         return False
     d, s = n - 1, 0
-    while not d % 2:
+    while not (d % 2):
         d, s = d >> 1, s + 1
     # Returns exact according to http://primes.utm.edu/prove/prove2_3.html
     if n < 1373653:
@@ -271,7 +271,7 @@ def find_generator_Z_N_star(N, pstatements = False):
             if works:
                 return g
             elif pstatements:
-                print 'Not ' + str(g)
+                print ('Not ' + str(g))
             g += 1
     else:
         ZNstar = set([i for i in range(0,N) if in_Z_N_star(i,N)])
@@ -284,5 +284,5 @@ def find_generator_Z_N_star(N, pstatements = False):
             if len(S.symmetric_difference(ZNstar)) == 0:
                 return g
             if pstatements:
-                print 'Not ' + str(g)
+                print ('Not ' + str(g))
         return None

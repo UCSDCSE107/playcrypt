@@ -49,13 +49,15 @@ class GameUFCMA(Game):
         return t
 
 
-    def finalize(self, (message, tag)):
+    def finalize(self, ct):
         """
         This method is usually called automatically by the simulator class
         to determine whether or not the adversary won the game.
-
+        :ct: (message, tag)
         :return: True if successful, False otherwise.
         """
+        message = ct[0]
+        tag = ct[1]
         if message is None or tag is None:
             return False
 			

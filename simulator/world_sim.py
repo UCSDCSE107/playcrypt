@@ -26,7 +26,7 @@ class WorldSim(BaseSim):
         :return: successes / total_runs
         """
         results = []
-        for i in xrange(0, trials):
+        for i in range(0, trials):
             results += [self.run(world)]
 
         successes = float(results.count(1))
