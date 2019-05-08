@@ -24,7 +24,7 @@ class CTXTSim(BaseSim):
         :return: successes / total_runs
         """
         results = []
-        for i in xrange(0, trials):
+        for i in range(0, trials):
             results += [self.run()]
 
         successes = float(results.count(True))
