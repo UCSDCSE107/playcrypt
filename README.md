@@ -1,7 +1,7 @@
 # PlayCrypt
 PlayCrypt collection of cryptography games and simulators implemented in Python.
 
-For details on how to retrieve, compile and submit homework in the Sp19 variant of CSE107, please see the README on Piazza. 
+For details on how to retrieve, compile and submit homework in the current edition of CSE107, please see the README on Piazza. 
 
 If you have any questions or problems using the playcrypt library, please consult https://avivkiss.github.io/cs107-w16/intro.html for documentation.
 The "Conventions" and "Tools" sections are probably the most useful for your purposes.
