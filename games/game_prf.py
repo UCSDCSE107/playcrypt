@@ -21,7 +21,7 @@ class GamePRF(Game):
 
         :param input_len: Length of the input (in bytes) of the function
                           that will be used in this game.
-                          
+
         :param output_len: Length of the output (in bytes) of the function
                            that will be used in this game.
         """
@@ -66,7 +66,7 @@ class GamePRF(Game):
         if len(m) is not self.input_len:
             raise ValueError("Message is of length " + str(len(m)) + \
                     " but should be " + str(self.input_len) + ".")
-        
+
         self.answered_queries += 1
         if self.world == 0:
             if m not in self.messages.keys():
@@ -84,7 +84,7 @@ class GamePRF(Game):
                       or 1.
         :return: True if guess is correct, false otherwise.
         """
-        
-        if self.required_queries != self.answered_queries:
-            raise ValueError("The adversary made " + str(self.answered_queries) + " queries to its Fn oracle. It is required to make exactly " + str(self.required_queries) + " call(s) to Fn.")
+
+        if self.required_queries < self.answered_queries:
+            raise ValueError("The adversary made " + str(self.answered_queries) + " queries to its Fn oracle. It is required to make at most " + str(self.required_queries) + " call(s) to Fn.")
         return guess == self.world
