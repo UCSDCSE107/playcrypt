@@ -98,4 +98,4 @@ class GamePKELR(Game):
 
     def __del__(self):
         if self.warning != '':
-            print self.warning
+            raise ValueError(self.warning)
