@@ -14,8 +14,8 @@ class UFCMASignSim(BaseSim):
 
         :return: 1 for success and 0 for failure.
         """
-        self.game.initialize()
-        return self.game.finalize(self.adversary(self.game.sign))
+        (pk, sk) = self.game.initialize()
+        return self.game.finalize(self.adversary(self.game.sign, pk))
 
     def compute_success_ratio(self, n=1000):
         """

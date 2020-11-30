@@ -38,6 +38,7 @@ class GameUFCMASign(Game):
             self.pk, self.sk = self.key_gen()
         self.messages = []
         self.win = False
+        return self.pk, self.sk
 
     def sign(self, message):
         """
