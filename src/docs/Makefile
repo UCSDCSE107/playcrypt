@@ -23,3 +23,4 @@ clean:
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 	rsync -aq ../../docs/html/ ../../docs
+	touch ../../.nojekyll
