@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>playcrypt.ideal package &mdash; PlayCrypt  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="playcrypt.tools module" href="playcrypt.tools.html" />
+    <link rel="prev" title="playcrypt.simulator package" href="playcrypt.simulator.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> PlayCrypt
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Intro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design_and_architecture.html">Design and Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="playcrypt.games.html">Games</a></li>
+<li class="toctree-l1"><a class="reference internal" href="playcrypt.simulator.html">Simulator</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Ideal Functions</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-playcrypt.ideal.block_cipher">playcrypt.ideal.block_cipher module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-playcrypt.ideal.digital_signature">playcrypt.ideal.digital_signature module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-playcrypt.ideal.hash_function">playcrypt.ideal.hash_function module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-playcrypt.ideal.message_authentication_code">playcrypt.ideal.message_authentication_code module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-playcrypt.ideal">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="playcrypt.tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="playcrypt.primitives.html">Primitives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PlayCrypt</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>playcrypt.ideal package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/playcrypt.ideal.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="playcrypt-ideal-package">
+<h1>playcrypt.ideal package<a class="headerlink" href="#playcrypt-ideal-package" title="Permalink to this headline"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline"></a></h2>
+</section>
+<section id="module-playcrypt.ideal.block_cipher">
+<span id="playcrypt-ideal-block-cipher-module"></span><h2>playcrypt.ideal.block_cipher module<a class="headerlink" href="#module-playcrypt.ideal.block_cipher" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="playcrypt.ideal.block_cipher.BlockCipher">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">playcrypt.ideal.block_cipher.</span></span><span class="sig-name descname"><span class="pre">BlockCipher</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_len</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/block_cipher.html#BlockCipher"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.block_cipher.BlockCipher" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class simulates a block cipher. It can emulate a block cipher
+with any key or message size (in bytes).</p>
+<p>Example Usage:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">playcrypt.primitives</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="kn">from</span> <span class="nn">playcrypt.ideal.block_cipher</span> <span class="kn">import</span> <span class="n">BlockCipher</span>
+
+<span class="n">b</span> <span class="o">=</span> <span class="n">BlockCipher</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">12</span><span class="p">)</span>
+<span class="n">key</span> <span class="o">=</span> <span class="n">random_string</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">cipher_text</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">encrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="s2">&quot;Hello World!&quot;</span><span class="p">)</span>
+<span class="n">decrypted_message</span> <span class="o">=</span> <span class="n">b</span><span class="o">.</span><span class="n">decrypt</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">cipher_text</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="n">decrypted_message</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>Hello World!
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="playcrypt.ideal.block_cipher.BlockCipher.decrypt">
+<span class="sig-name descname"><span class="pre">decrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cipher</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/block_cipher.html#BlockCipher.decrypt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.block_cipher.BlockCipher.decrypt" title="Permalink to this definition"></a></dt>
+<dd><p>This is a simulated decryption function. Use of the correct key and
+cipher text will result in correct decryption. The cipher and key must
+have correct lengths.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – Key to use for simulated decryption, this must be of length,
+<code class="docutils literal notranslate"><span class="pre">self.key_len</span></code>.</p></li>
+<li><p><strong>cipher</strong> – Cipher text to be decrypted, this must be of length
+<code class="docutils literal notranslate"><span class="pre">self.block_len</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The correct message for the cipher text, cipher, or</p>
+</dd>
+</dl>
+<p><code class="docutils literal notranslate"><span class="pre">None</span></code> if parameters are not met.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="playcrypt.ideal.block_cipher.BlockCipher.encrypt">
+<span class="sig-name descname"><span class="pre">encrypt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/block_cipher.html#BlockCipher.encrypt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.block_cipher.BlockCipher.encrypt" title="Permalink to this definition"></a></dt>
+<dd><p>This is a simulated encryption function. Simply use a key and message
+with the proper block length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>key</strong> – Key to use for simulated encryption, so this must be of</p>
+</dd>
+</dl>
+<dl class="simple">
+<dt>length</dt><dd><p><code class="docutils literal notranslate"><span class="pre">self.key_len</span></code>.</p>
+</dd>
+</dl>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>block</strong> – Message to be encrypted, so this must be of length
+<code class="docutils literal notranslate"><span class="pre">self.block_len</span></code>.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The cipher text for the block or <code class="docutils literal notranslate"><span class="pre">None</span></code> if the length
+parameters are not met.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-playcrypt.ideal.digital_signature">
+<span id="playcrypt-ideal-digital-signature-module"></span><h2>playcrypt.ideal.digital_signature module<a class="headerlink" href="#module-playcrypt.ideal.digital_signature" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="playcrypt.ideal.digital_signature.DigitalSignature">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">playcrypt.ideal.digital_signature.</span></span><span class="sig-name descname"><span class="pre">DigitalSignature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_len</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/digital_signature.html#DigitalSignature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.digital_signature.DigitalSignature" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class simulates a digital signature scheme. It can simulate a signature
+scheme with any key or tag length (in bytes).</p>
+<p>Example Usage:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">playcrypt.ideal.digital_signature</span> <span class="kn">import</span> <span class="n">DigitalSignature</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="s2">&quot;ABCDEFGH&quot;</span> <span class="o">*</span> <span class="mi">16</span>
+<span class="n">k</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span> <span class="o">*</span> <span class="mi">128</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">DigitalSignature</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">)</span>
+
+<span class="n">pk</span><span class="p">,</span> <span class="n">sk</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">key_gen</span><span class="p">()</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+<span class="nb">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">pk</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>True
+False
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="playcrypt.ideal.digital_signature.DigitalSignature.key_gen">
+<span class="sig-name descname"><span class="pre">key_gen</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/digital_signature.html#DigitalSignature.key_gen"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.digital_signature.DigitalSignature.key_gen" title="Permalink to this definition"></a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Returns a random key for a DS scheme.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="playcrypt.ideal.digital_signature.DigitalSignature.sign">
+<span class="sig-name descname"><span class="pre">sign</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/digital_signature.html#DigitalSignature.sign"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.digital_signature.DigitalSignature.sign" title="Permalink to this definition"></a></dt>
+<dd><p>This is a simulated sign function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>sk</strong> – Key for signing, you must use a key of length
+<code class="docutils literal notranslate"><span class="pre">self.key_len</span></code>.</p></li>
+<li><p><strong>message</strong> – Message that will be signed, must have length greater
+than 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Signature of message if parameters are met, <code class="docutils literal notranslate"><span class="pre">None</span></code> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="playcrypt.ideal.digital_signature.DigitalSignature.verify">
+<span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/digital_signature.html#DigitalSignature.verify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.digital_signature.DigitalSignature.verify" title="Permalink to this definition"></a></dt>
+<dd><p>This is a simulated verification function. Checks to see if the tag
+belongs to the passed in message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pk</strong> – Key to use for simulated verification. It must have length
+<code class="docutils literal notranslate"><span class="pre">self.key_len</span></code>.</p></li>
+<li><p><strong>message</strong> – Message to check against tag.</p></li>
+<li><p><strong>tag</strong> – Tag that is being tested to see if it belongs to message.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the tag is correct, false otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-playcrypt.ideal.hash_function">
+<span id="playcrypt-ideal-hash-function-module"></span><h2>playcrypt.ideal.hash_function module<a class="headerlink" href="#module-playcrypt.ideal.hash_function" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="playcrypt.ideal.hash_function.HashFunction">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">playcrypt.ideal.hash_function.</span></span><span class="sig-name descname"><span class="pre">HashFunction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">out_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key_len</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/hash_function.html#HashFunction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.hash_function.HashFunction" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class simulates a hash function. It can emulate a hash function with
+or without a key and with any key or output length (in bytes).</p>
+<p>Example Usage:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">playcrypt.ideal.hash_function</span> <span class="kn">import</span> <span class="n">HashFunction</span>
+
+<span class="n">h</span> <span class="o">=</span> <span class="n">HashFunction</span><span class="p">(</span><span class="mi">16</span><span class="p">)</span>
+
+<span class="n">h1</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">hash</span><span class="p">(</span><span class="s2">&quot;Hello World!&quot;</span><span class="p">)</span>
+<span class="n">h2</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">hash</span><span class="p">(</span><span class="s2">&quot;H3110 W0r1d!&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">h1</span> <span class="o">!=</span> <span class="n">h2</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">h1</span><span class="p">)</span> <span class="o">==</span> <span class="n">h</span><span class="o">.</span><span class="n">out_len</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">h1</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">h2</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>True
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="playcrypt.ideal.hash_function.HashFunction.hash">
+<span class="sig-name descname"><span class="pre">hash</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/hash_function.html#HashFunction.hash"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.hash_function.HashFunction.hash" title="Permalink to this definition"></a></dt>
+<dd><p>This is a simulated hashing function. If a key is used then it must have
+the correct key length.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>message</strong> – Must be a string of length &gt; 0</p></li>
+<li><p><strong>key</strong> – Key used for simulated hashing, must have length
+<code class="docutils literal notranslate"><span class="pre">self.key_len</span></code>.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Hash of message if all parameters are met, <code class="docutils literal notranslate"><span class="pre">None</span></code> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="playcrypt.ideal.hash_function.HashFunction.hash_int">
+<span class="sig-name descname"><span class="pre">hash_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/hash_function.html#HashFunction.hash_int"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.hash_function.HashFunction.hash_int" title="Permalink to this definition"></a></dt>
+<dd><p>This is a simulated hashing function that takes an input in Z_N^* and
+outputs a value in Z_N^*.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>message</strong> – Must be an integer in Z_N^*</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Hash of message if all parameters are met, <code class="docutils literal notranslate"><span class="pre">None</span></code> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-playcrypt.ideal.message_authentication_code">
+<span id="playcrypt-ideal-message-authentication-code-module"></span><h2>playcrypt.ideal.message_authentication_code module<a class="headerlink" href="#module-playcrypt.ideal.message_authentication_code" title="Permalink to this headline"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="playcrypt.ideal.message_authentication_code.MAC">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">playcrypt.ideal.message_authentication_code.</span></span><span class="sig-name descname"><span class="pre">MAC</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key_len</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag_len</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/message_authentication_code.html#MAC"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.message_authentication_code.MAC" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class simulates a message authentication code scheme. It can simulate
+a MAC with any key or tag length (in bytes).</p>
+<p>Example Usage:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">playcrypt.ideal.message_authentication_code</span> <span class="kn">import</span> <span class="n">MAC</span>
+
+<span class="n">m</span> <span class="o">=</span> <span class="s2">&quot;ABCDEFGH&quot;</span>
+<span class="n">k</span> <span class="o">=</span> <span class="s2">&quot;A&quot;</span> <span class="o">*</span> <span class="mi">16</span>
+
+<span class="n">mac</span> <span class="o">=</span> <span class="n">MAC</span><span class="p">(</span><span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>
+
+<span class="n">c</span> <span class="o">=</span> <span class="n">mac</span><span class="o">.</span><span class="n">tag</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+
+<span class="nb">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">mac</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">c</span><span class="p">))</span>
+<span class="nb">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">mac</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>True
+False
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="playcrypt.ideal.message_authentication_code.MAC.tag">
+<span class="sig-name descname"><span class="pre">tag</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/message_authentication_code.html#MAC.tag"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.message_authentication_code.MAC.tag" title="Permalink to this definition"></a></dt>
+<dd><p>This is a simulated tagging function.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – Key for tagging. You must use a key of length
+<code class="docutils literal notranslate"><span class="pre">self.key_len</span></code>.</p></li>
+<li><p><strong>message</strong> – Message that will be tagged. It must have length greater
+than 0.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Tag of message if parameters are met, <code class="docutils literal notranslate"><span class="pre">None</span></code> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="playcrypt.ideal.message_authentication_code.MAC.verify">
+<span class="sig-name descname"><span class="pre">verify</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">key</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tag</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/ideal/message_authentication_code.html#MAC.verify"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.ideal.message_authentication_code.MAC.verify" title="Permalink to this definition"></a></dt>
+<dd><p>This is a simulated verification function. Checks to see if the tag
+belongs to the passed in message.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> – Key to use for simulated verification. It must have length
+<code class="docutils literal notranslate"><span class="pre">self.key_len</span></code>.</p></li>
+<li><p><strong>message</strong> – Message to check against tag.</p></li>
+<li><p><strong>tag</strong> – Tag that is being tested to see if it belongs to message.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True if the tag is correct, false otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-playcrypt.ideal">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-playcrypt.ideal" title="Permalink to this headline"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="playcrypt.simulator.html" class="btn btn-neutral float-left" title="playcrypt.simulator package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="playcrypt.tools.html" class="btn btn-neutral float-right" title="playcrypt.tools module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, UCSD CSE 107 Teams of Time Immemorial.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

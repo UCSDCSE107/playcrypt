@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>playcrypt.games.game_bind &mdash; PlayCrypt  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PlayCrypt
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Intro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design_and_architecture.html">Design and Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.games.html">Games</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.simulator.html">Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.ideal.html">Ideal Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.primitives.html">Primitives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PlayCrypt</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>playcrypt.games.game_bind</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for playcrypt.games.game_bind</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">playcrypt.games.game</span> <span class="kn">import</span> <span class="n">Game</span>
+
+
+<div class="viewcode-block" id="GameBIND"><a class="viewcode-back" href="../../../playcrypt.games.html#playcrypt.games.game_bind.GameBIND">[docs]</a><span class="k">class</span> <span class="nc">GameBIND</span><span class="p">(</span><span class="n">Game</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This game is used to test whether a candidate commitment scheme is binding.</span>
+<span class="sd">    Adversaries playing this game do not have access to any oracles. However,</span>
+<span class="sd">    they do have access to a public parameter pi.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param p: Algorithm used to generate pi. This must be a callable</span>
+<span class="sd">                  python function that generates a public parameter pi that</span>
+<span class="sd">                  can be used by the adversary and commit/verify functions.</span>
+<span class="sd">        :param v: Algorithm used to verify commitment. This must be a</span>
+<span class="sd">                  callable python function that takes a key, commitment,</span>
+<span class="sd">                  message and random factor as parameters as defined in</span>
+<span class="sd">                  the commitment scheme slides.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GameBIND</span><span class="p">,</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">p</span><span class="p">,</span> <span class="n">v</span>
+
+<div class="viewcode-block" id="GameBIND.initialize"><a class="viewcode-back" href="../../../playcrypt.games.html#playcrypt.games.game_bind.GameBIND.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets up the public parameter pi using the parameter generation</span>
+<span class="sd">        algorithm. Called by Simulator class automatically when a game is run.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="GameBIND.finalize"><a class="viewcode-back" href="../../../playcrypt.games.html#playcrypt.games.game_bind.GameBIND.finalize">[docs]</a>    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method determines whether the game was won or lost by checking it</span>
+<span class="sd">        to see if the adversary was able to construct two (m, k) pairs with the</span>
+<span class="sd">        same commitment.</span>
+<span class="sd">        :param args: (c,m0,m1,k0,k1)</span>
+<span class="sd">        :param c: Target commitment for (m, k) pairs.</span>
+<span class="sd">        :param m0: Message 1</span>
+<span class="sd">        :param m1: Message 2</span>
+<span class="sd">        :param k0: Verification parameter 1</span>
+<span class="sd">        :param k1: Verification parameter 2</span>
+<span class="sd">        :return: True on win, False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">m0</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">k0</span><span class="p">,</span> <span class="n">k1</span><span class="p">)</span> <span class="o">=</span> <span class="n">args</span>
+        <span class="n">v0</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">m0</span><span class="p">,</span> <span class="n">k0</span><span class="p">)</span>
+        <span class="n">v1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">m1</span><span class="p">,</span> <span class="n">k1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">v0</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">v1</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">m0</span> <span class="o">!=</span> <span class="n">m1</span></div></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, UCSD CSE 107 Teams of Time Immemorial.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

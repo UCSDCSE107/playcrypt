@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>playcrypt.ideal.digital_signature &mdash; PlayCrypt  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PlayCrypt
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Intro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design_and_architecture.html">Design and Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.games.html">Games</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.simulator.html">Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.ideal.html">Ideal Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.primitives.html">Primitives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PlayCrypt</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>playcrypt.ideal.digital_signature</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for playcrypt.ideal.digital_signature</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">playcrypt.primitives</span> <span class="kn">import</span> <span class="o">*</span>
+
+<div class="viewcode-block" id="DigitalSignature"><a class="viewcode-back" href="../../../playcrypt.ideal.html#playcrypt.ideal.digital_signature.DigitalSignature">[docs]</a><span class="k">class</span> <span class="nc">DigitalSignature</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This class simulates a digital signature scheme. It can simulate a signature</span>
+<span class="sd">    scheme with any key or tag length (in bytes).</span>
+
+<span class="sd">    Example Usage:</span>
+
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">        from playcrypt.ideal.digital_signature import DigitalSignature</span>
+
+<span class="sd">        m = &quot;ABCDEFGH&quot; * 16</span>
+<span class="sd">        k = &quot;A&quot; * 128</span>
+
+<span class="sd">        ds = DigitalSignature(128, 128)</span>
+
+<span class="sd">        pk, sk = ds.key_gen()</span>
+
+<span class="sd">        c = ds.sign(pk, m)</span>
+
+<span class="sd">        print str(ds.verify(sk, m, c))</span>
+<span class="sd">        print str(ds.verify(pk, m, c))</span>
+
+<span class="sd">    .. testoutput::</span>
+
+<span class="sd">        True</span>
+<span class="sd">        False</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key_len</span><span class="p">,</span> <span class="n">tag_len</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param key_len: Key length for the DS in bytes.</span>
+<span class="sd">        :param tag_len: Tag length for the DS in bytes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key_len</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tag_len</span> <span class="o">=</span> <span class="n">key_len</span><span class="p">,</span> <span class="n">tag_len</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tags</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span> <span class="o">=</span> <span class="p">{}</span>
+
+
+<div class="viewcode-block" id="DigitalSignature.key_gen"><a class="viewcode-back" href="../../../playcrypt.ideal.html#playcrypt.ideal.digital_signature.DigitalSignature.key_gen">[docs]</a>    <span class="k">def</span> <span class="nf">key_gen</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :return: Returns a random key for a DS scheme.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pk</span> <span class="o">=</span> <span class="n">random_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_len</span><span class="p">)</span>
+        <span class="n">sk</span> <span class="o">=</span> <span class="n">random_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_len</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pk</span><span class="p">]</span> <span class="o">=</span> <span class="n">sk</span>
+
+        <span class="k">return</span> <span class="n">pk</span><span class="p">,</span> <span class="n">sk</span></div>
+
+<div class="viewcode-block" id="DigitalSignature.sign"><a class="viewcode-back" href="../../../playcrypt.ideal.html#playcrypt.ideal.digital_signature.DigitalSignature.sign">[docs]</a>    <span class="k">def</span> <span class="nf">sign</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sk</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is a simulated sign function.</span>
+
+<span class="sd">        :param sk: Key for signing, you must use a key of length</span>
+<span class="sd">                    ``self.key_len``.</span>
+<span class="sd">        :param message: Message that will be signed, must have length greater</span>
+<span class="sd">                        than 0.</span>
+<span class="sd">        :return: Signature of message if parameters are met, ``None`` otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">sk</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_len</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid key length, key length was: &quot;</span> <span class="o">+</span> \
+                    <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sk</span><span class="p">))</span> <span class="o">+</span> <span class="s2">&quot; should be: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_len</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+
+        <span class="k">if</span> <span class="n">sk</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">sk</span><span class="p">]</span><span class="o">=</span> <span class="n">random_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_len</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="p">[(</span><span class="n">sk</span><span class="p">,</span> <span class="n">message</span><span class="p">)]</span> <span class="o">=</span> <span class="n">random_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tag_len</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="p">[(</span><span class="n">sk</span><span class="p">,</span> <span class="n">message</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="DigitalSignature.verify"><a class="viewcode-back" href="../../../playcrypt.ideal.html#playcrypt.ideal.digital_signature.DigitalSignature.verify">[docs]</a>    <span class="k">def</span> <span class="nf">verify</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pk</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">tag</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is a simulated verification function. Checks to see if the tag</span>
+<span class="sd">        belongs to the passed in message.</span>
+
+<span class="sd">        :param pk: Key to use for simulated verification. It must have length</span>
+<span class="sd">                    ``self.key_len``.</span>
+<span class="sd">        :param message:  Message to check against tag.</span>
+<span class="sd">        :param tag: Tag that is being tested to see if it belongs to message.</span>
+<span class="sd">        :return: True if the tag is correct, false otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">tag</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">pk</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">random_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_len</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pk</span>
+
+        <span class="n">sk</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">keys</span><span class="p">[</span><span class="n">pk</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">sk</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">tag</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">tags</span><span class="p">[((</span><span class="n">sk</span><span class="p">,</span> <span class="n">message</span><span class="p">))]</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, UCSD CSE 107 Teams of Time Immemorial.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
