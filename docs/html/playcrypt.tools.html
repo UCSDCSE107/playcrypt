@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>playcrypt.tools module &mdash; PlayCrypt  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="playcrypt.primitives module" href="playcrypt.primitives.html" />
+    <link rel="prev" title="playcrypt.ideal package" href="playcrypt.ideal.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="index.html" class="icon icon-home"> PlayCrypt
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Intro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="quick_start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design_and_architecture.html">Design and Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="playcrypt.games.html">Games</a></li>
+<li class="toctree-l1"><a class="reference internal" href="playcrypt.simulator.html">Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="playcrypt.ideal.html">Ideal Functions</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="playcrypt.primitives.html">Primitives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PlayCrypt</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+      <li>playcrypt.tools module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/playcrypt.tools.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="playcrypt-tools-module">
+<h1>playcrypt.tools module<a class="headerlink" href="#playcrypt-tools-module" title="Permalink to this headline"></a></h1>
+<span class="target" id="module-playcrypt.tools"></span><dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.add_int_to_string">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">add_int_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">num</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size_bytes</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#add_int_to_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.add_int_to_string" title="Permalink to this definition"></a></dt>
+<dd><p>Adds a number to a string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s</strong> – String of length block_size_bytes</p></li>
+<li><p><strong>num</strong> – A number s.t. 0 &lt;= num &lt; block_size_bytes*8</p></li>
+<li><p><strong>block_size_bytes</strong> – Length of s in bytes</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.bitwise_complement_string">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">bitwise_complement_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#bitwise_complement_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.bitwise_complement_string" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the bitwise complement of s.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>s</strong> – string obejct to complement</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>result of bitwuise complement</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.egcd">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">egcd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">b</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#egcd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.egcd" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the extended GCD for (a,b). That is, it computes integers x and y
+such that ax + by = gcd(a, b) as well as gcd(a, b).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> – First parameter for GCD.</p></li>
+<li><p><strong>b</strong> – Second parameter for GCD.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.exp">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">exp</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#exp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.exp" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.find_generator_Z_N_star">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">find_generator_Z_N_star</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pstatements</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#find_generator_Z_N_star"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.find_generator_Z_N_star" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a generator of Z_N_star.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>N</strong> – N</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The generator.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.in_Z_N_star">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">in_Z_N_star</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#in_Z_N_star"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.in_Z_N_star" title="Permalink to this definition"></a></dt>
+<dd><p>Determines whether a is in Z_n^*.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> – number to be checked</p></li>
+<li><p><strong>N</strong> – N</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Boolean</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.int_to_string">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">int_to_string</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">l</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#int_to_string"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.int_to_string" title="Permalink to this definition"></a></dt>
+<dd><p>Converts a number to a string with length l</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>x</strong> – A number between 0 and 2 ** l</p></li>
+<li><p><strong>l</strong> – The length of the string to be returned</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.is_prime">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">is_prime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">n</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_precision_for_huge_n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">16</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#is_prime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.is_prime" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.join">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">join</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#join"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.join" title="Permalink to this definition"></a></dt>
+<dd><p>Turns an array of strings into one string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>s</strong> – Array of string to join.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>One string made by connecting all strings in the array.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.modinv">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">modinv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">a</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">m</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#modinv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.modinv" title="Permalink to this definition"></a></dt>
+<dd><p>Computes the modular inverse of a mod m.
+<a class="reference external" href="http://stackoverflow.com/questions/4798654/modular-multiplicative-inverse-function-in-python">http://stackoverflow.com/questions/4798654/modular-multiplicative-inverse-function-in-python</a></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>a</strong> – a in a^-1 mod m</p></li>
+<li><p><strong>m</strong> – m in a^-1 mod m</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>a^-1 mod m or None if no inverse exists</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.prime_between">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">prime_between</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">e</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#prime_between"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.prime_between" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.random_Z_N">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">random_Z_N</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#random_Z_N"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.random_Z_N" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the a random element in Z_N.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>N</strong> – N</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>random element</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.random_Z_N_star">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">random_Z_N_star</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">N</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#random_Z_N_star"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.random_Z_N_star" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the a random element in Z_N^*.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>N</strong> – N</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>random element</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.split">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">split</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#split"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.split" title="Permalink to this definition"></a></dt>
+<dd><p>Split a string into portions of length n. If n is not supplied the
+string is split in half. Some examples:</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">playcrypt.tools</span> <span class="kn">import</span> <span class="n">split</span>
+
+<span class="nb">print</span> <span class="n">split</span><span class="p">(</span><span class="s2">&quot;ABCDEF&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">split</span><span class="p">(</span><span class="s2">&quot;ABCDEF&quot;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span> <span class="n">split</span><span class="p">(</span><span class="s2">&quot;ABCDEF&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>[&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;]
+[&#39;AB&#39;, &#39;CD&#39;, &#39;EF&#39;]
+[&#39;ABC&#39;, &#39;DEF&#39;]
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s</strong> – A string</p></li>
+<li><p><strong>n</strong> – the length of string portions</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return s[]</dt>
+<dd class="field-even"><p>an array of the portions of s</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.string_to_int">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">string_to_int</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#string_to_int"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.string_to_int" title="Permalink to this definition"></a></dt>
+<dd><p>Converts s to an int</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>s</strong> – A string</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>The integer representation of the string s.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="playcrypt.tools.xor_strings">
+<span class="sig-prename descclassname"><span class="pre">playcrypt.tools.</span></span><span class="sig-name descname"><span class="pre">xor_strings</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">s1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">s2</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/playcrypt/tools.html#xor_strings"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#playcrypt.tools.xor_strings" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the bitwise XOR of s1 and s2. If len(s1) != len(s2) the resulting
+XOR operation will be the size of the bigger string.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>s1</strong> – first string in XOR</p></li>
+<li><p><strong>s2</strong> – second string in XOR</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>result of bitwise XOR of s1 and s2.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="playcrypt.ideal.html" class="btn btn-neutral float-left" title="playcrypt.ideal package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="playcrypt.primitives.html" class="btn btn-neutral float-right" title="playcrypt.primitives module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, UCSD CSE 107 Teams of Time Immemorial.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

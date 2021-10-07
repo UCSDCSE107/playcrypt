@@ -1,4 +1,4 @@
-Welcome to CSE 107 Exercise's documentation!
+Welcome to PlayCrypt's documentation!
 ============================================
 
 A Python library for introductory theoretical cryptography courses. The

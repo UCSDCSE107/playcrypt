@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>playcrypt.games.game_prf &mdash; PlayCrypt  documentation</title>
+      <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../../index.html" class="icon icon-home"> PlayCrypt
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../intro.html">Intro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../quick_start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../design_and_architecture.html">Design and Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.games.html">Games</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.simulator.html">Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.ideal.html">Ideal Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../playcrypt.primitives.html">Primitives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">PlayCrypt</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+      <li>playcrypt.games.game_prf</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for playcrypt.games.game_prf</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">random</span>
+
+<span class="kn">from</span> <span class="nn">playcrypt.games.game</span> <span class="kn">import</span> <span class="n">Game</span>
+<span class="kn">from</span> <span class="nn">playcrypt.primitives</span> <span class="kn">import</span> <span class="n">random_string</span>
+
+
+<div class="viewcode-block" id="GamePRF"><a class="viewcode-back" href="../../../playcrypt.games.html#playcrypt.games.game_prf.GamePRF">[docs]</a><span class="k">class</span> <span class="nc">GamePRF</span><span class="p">(</span><span class="n">Game</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    This game is used to test whether a candidate function is a good</span>
+<span class="sd">    pseudo-random function or not. Adversaries playing this game have</span>
+<span class="sd">    access to an fn oracle.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">required_queries</span><span class="p">,</span> <span class="n">prf</span><span class="p">,</span> <span class="n">key_len</span><span class="p">,</span> <span class="n">input_len</span><span class="p">,</span> <span class="n">output_len</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param prf: This must be a callable python function that takes two</span>
+<span class="sd">                    inputs, k and x where k is a key of length key_len and x is a</span>
+<span class="sd">                    message of length input_len.</span>
+
+<span class="sd">        :param key_len: Length of the key (in bytes) used in the function that</span>
+<span class="sd">                        will be tested with this game.</span>
+
+<span class="sd">        :param input_len: Length of the input (in bytes) of the function</span>
+<span class="sd">                          that will be used in this game.</span>
+
+<span class="sd">        :param output_len: Length of the output (in bytes) of the function</span>
+<span class="sd">                           that will be used in this game.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GamePRF</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">required_queries</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prf</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">key_len</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_len</span> <span class="o">=</span> <span class="n">required_queries</span><span class="p">,</span> <span class="n">prf</span><span class="p">,</span> <span class="n">key_len</span><span class="p">,</span> <span class="n">input_len</span>
+        <span class="k">if</span> <span class="n">output_len</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_len</span> <span class="o">=</span> <span class="n">input_len</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_len</span> <span class="o">=</span> <span class="n">output_len</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">world</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="GamePRF.initialize"><a class="viewcode-back" href="../../../playcrypt.games.html#playcrypt.games.game_prf.GamePRF.initialize">[docs]</a>    <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">world</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the initialize method and is part of GamePRF as defined in the</span>
+<span class="sd">        slides. It is called automatically by WorldSim when a game is run.</span>
+
+<span class="sd">        :param world: This is an optional parameter that allows the simulator</span>
+<span class="sd">                      to control which world the game is in. This allows for</span>
+<span class="sd">                      more exact simulation measurements.</span>
+<span class="sd">        :return:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">answered_queries</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">messages</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">key</span> <span class="o">=</span> <span class="n">random_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key_len</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">world</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">world</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">world</span> <span class="o">=</span> <span class="n">world</span></div>
+
+<div class="viewcode-block" id="GamePRF.fn"><a class="viewcode-back" href="../../../playcrypt.games.html#playcrypt.games.game_prf.GamePRF.fn">[docs]</a>    <span class="k">def</span> <span class="nf">fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This is the fn oracle that is exposed to the adversary via the</span>
+<span class="sd">        simulator. It takes in a message m of length self.input_len and</span>
+<span class="sd">        returns either the encrypted result in the real world and the</span>
+<span class="sd">        random result in the random world. 0 = random world, 1 = real world.</span>
+
+<span class="sd">        :param m: Message adversary wants to encrypt.</span>
+<span class="sd">        :return: Either the encrypted result in the real world or random result</span>
+<span class="sd">                 in the random world.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_len</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Message is of length &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">m</span><span class="p">))</span> <span class="o">+</span> \
+                    <span class="s2">&quot; but should be &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_len</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">answered_queries</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">m</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="n">m</span><span class="p">]</span> <span class="o">=</span> <span class="n">random_string</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_len</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">messages</span><span class="p">[</span><span class="n">m</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">prf</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GamePRF.finalize"><a class="viewcode-back" href="../../../playcrypt.games.html#playcrypt.games.game_prf.GamePRF.finalize">[docs]</a>    <span class="k">def</span> <span class="nf">finalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">guess</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        This method is called automatically by the WorldSim and evaluates a</span>
+<span class="sd">        guess that is returned by the adversary.</span>
+
+<span class="sd">        :param guess: Which world the adversary thinks it is in, either a 0</span>
+<span class="sd">                      or 1.</span>
+<span class="sd">        :return: True if guess is correct, false otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">required_queries</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">answered_queries</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The adversary made &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">answered_queries</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; queries to its Fn oracle. It is required to make at most &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">required_queries</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; call(s) to Fn.&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">guess</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">world</span></div></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, UCSD CSE 107 Teams of Time Immemorial.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

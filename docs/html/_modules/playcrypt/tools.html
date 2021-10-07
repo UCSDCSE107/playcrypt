@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>playcrypt.tools &mdash; PlayCrypt  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> PlayCrypt
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../intro.html">Intro</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../quick_start.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../conventions.html">Conventions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../design_and_architecture.html">Design and Architecture</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../playcrypt.games.html">Games</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../playcrypt.simulator.html">Simulator</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../playcrypt.ideal.html">Ideal Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../playcrypt.tools.html">Tools</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../playcrypt.primitives.html">Primitives</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">PlayCrypt</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+      <li>playcrypt.tools</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for playcrypt.tools</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">io</span> <span class="kn">import</span> <span class="n">StringIO</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">IPython</span> <span class="kn">import</span> <span class="n">embed</span> <span class="k">as</span> <span class="n">debug</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<div class="viewcode-block" id="egcd"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.egcd">[docs]</a><span class="k">def</span> <span class="nf">egcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the extended GCD for (a,b). That is, it computes integers x and y</span>
+<span class="sd">    such that ax + by = gcd(a, b) as well as gcd(a, b).</span>
+
+<span class="sd">    :param a: First parameter for GCD.</span>
+<span class="sd">    :param b: Second parameter for GCD.</span>
+<span class="sd">    :return:</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">g</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span> <span class="o">=</span> <span class="n">egcd</span><span class="p">(</span><span class="n">b</span> <span class="o">%</span> <span class="n">a</span><span class="p">,</span> <span class="n">a</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">g</span><span class="p">,</span> <span class="n">x</span> <span class="o">-</span> <span class="p">(</span><span class="n">b</span> <span class="o">//</span> <span class="n">a</span><span class="p">)</span> <span class="o">*</span> <span class="n">y</span><span class="p">,</span> <span class="n">y</span></div>
+
+<div class="viewcode-block" id="modinv"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.modinv">[docs]</a><span class="k">def</span> <span class="nf">modinv</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">m</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the modular inverse of a mod m.</span>
+<span class="sd">    http://stackoverflow.com/questions/4798654/modular-multiplicative-inverse-function-in-python</span>
+
+<span class="sd">    :param a: a in a^-1 mod m</span>
+<span class="sd">    :param m: m in a^-1 mod m</span>
+<span class="sd">    :return: a^-1 mod m or None if no inverse exists</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">g</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">egcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">g</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="n">m</span></div>
+
+
+<div class="viewcode-block" id="join"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.join">[docs]</a><span class="k">def</span> <span class="nf">join</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Turns an array of strings into one string.</span>
+
+<span class="sd">    :param s: Array of string to join.</span>
+<span class="sd">    :return: One string made by connecting all strings in the array.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="split"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.split">[docs]</a><span class="k">def</span> <span class="nf">split</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Split a string into portions of length n. If n is not supplied the</span>
+<span class="sd">    string is split in half. Some examples:</span>
+
+<span class="sd">    .. testcode::</span>
+
+<span class="sd">        from playcrypt.tools import split</span>
+
+<span class="sd">        print split(&quot;ABCDEF&quot;, 1)</span>
+<span class="sd">        print split(&quot;ABCDEF&quot;, 2)</span>
+<span class="sd">        print split(&quot;ABCDEF&quot;)</span>
+
+<span class="sd">    .. testoutput::</span>
+
+<span class="sd">        [&#39;A&#39;, &#39;B&#39;, &#39;C&#39;, &#39;D&#39;, &#39;E&#39;, &#39;F&#39;]</span>
+<span class="sd">        [&#39;AB&#39;, &#39;CD&#39;, &#39;EF&#39;]</span>
+<span class="sd">        [&#39;ABC&#39;, &#39;DEF&#39;]</span>
+
+
+<span class="sd">    :param s: A string</span>
+<span class="sd">    :param n: the length of string portions</span>
+<span class="sd">    :return s[]: an array of the portions of s</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">s</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span> <span class="n">s</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:]]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">l</span> <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="n">partial</span><span class="p">(</span><span class="n">StringIO</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">,</span> <span class="n">n</span><span class="p">),</span> <span class="s1">&#39;&#39;</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="string_to_int"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.string_to_int">[docs]</a><span class="k">def</span> <span class="nf">string_to_int</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts s to an int</span>
+
+<span class="sd">    :param s: A string</span>
+<span class="sd">    :return: The integer representation of the string s.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)):</span>
+        <span class="n">x</span> <span class="o">+=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="o">&lt;&lt;</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span> <span class="o">-</span> <span class="n">i</span><span class="p">)</span> <span class="o">*</span> <span class="mi">8</span>
+    <span class="k">return</span> <span class="n">x</span></div>
+
+
+<div class="viewcode-block" id="int_to_string"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.int_to_string">[docs]</a><span class="k">def</span> <span class="nf">int_to_string</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts a number to a string with length l</span>
+
+<span class="sd">    :param x: A number between 0 and 2 ** l</span>
+<span class="sd">    :param l: The length of the string to be returned</span>
+<span class="sd">    :return: string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">while</span> <span class="n">x</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">char</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="n">x</span> <span class="o">&amp;</span> <span class="mh">0xFF</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">&gt;&gt;=</span> <span class="mi">8</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">char</span> <span class="o">+</span> <span class="n">s</span>
+
+    <span class="k">if</span> <span class="n">l</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">s</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="n">l</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">+</span> <span class="n">s</span></div>
+
+
+<div class="viewcode-block" id="add_int_to_string"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.add_int_to_string">[docs]</a><span class="k">def</span> <span class="nf">add_int_to_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">num</span><span class="p">,</span> <span class="n">block_size_bytes</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Adds a number to a string</span>
+
+<span class="sd">    :param s: String of length block_size_bytes</span>
+<span class="sd">    :param num: A number s.t. 0 &lt;= num &lt; block_size_bytes*8</span>
+<span class="sd">    :param block_size_bytes: Length of s in bytes</span>
+<span class="sd">    :return: A string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">string_to_int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">+</span> <span class="n">num</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="n">block_size_bytes</span><span class="o">*</span><span class="mi">8</span><span class="p">))</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">int_to_string</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">block_size_bytes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span></div>
+
+
+<div class="viewcode-block" id="xor_strings"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.xor_strings">[docs]</a><span class="k">def</span> <span class="nf">xor_strings</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the bitwise XOR of s1 and s2. If len(s1) != len(s2) the resulting</span>
+<span class="sd">    XOR operation will be the size of the bigger string.</span>
+
+<span class="sd">    :param s1: first string in XOR</span>
+<span class="sd">    :param s2: second string in XOR</span>
+<span class="sd">    :return: result of bitwise XOR of s1 and s2.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">):</span>
+        <span class="n">s1</span> <span class="o">=</span> <span class="n">s1</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)))</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">):</span>
+        <span class="n">s2</span> <span class="o">=</span> <span class="n">s2</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\x00</span><span class="s2">&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s2</span><span class="p">)))</span>
+
+
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">^</span> <span class="nb">ord</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="bitwise_complement_string"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.bitwise_complement_string">[docs]</a><span class="k">def</span> <span class="nf">bitwise_complement_string</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the bitwise complement of s.</span>
+
+<span class="sd">    :param s: string obejct to complement</span>
+<span class="sd">    :return: result of bitwuise complement</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">xor_strings</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="s2">&quot;</span><span class="se">\xFF</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+<span class="c1"># https://rosettacode.org/wiki/Miller%E2%80%93Rabin_primality_test#Python:_Proved_correct_up_to_large_N</span>
+<div class="viewcode-block" id="is_prime"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.is_prime">[docs]</a><span class="k">def</span> <span class="nf">is_prime</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">_precision_for_huge_n</span><span class="o">=</span><span class="mi">16</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_try_composite</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">pow</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">pow</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="n">i</span> <span class="o">*</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span> <span class="o">==</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span> <span class="c1"># n  is definitely composite</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">is_prime</span><span class="p">,</span> <span class="s1">&#39;_known_primes&#39;</span><span class="p">):</span>
+        <span class="n">is_prime</span><span class="o">.</span><span class="n">_known_primes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+        <span class="n">is_prime</span><span class="o">.</span><span class="n">_known_primes</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1000</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">is_prime</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">is_prime</span><span class="o">.</span><span class="n">_known_primes</span> <span class="ow">or</span> <span class="n">n</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">True</span>
+    <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="n">n</span> <span class="o">%</span> <span class="n">p</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">is_prime</span><span class="o">.</span><span class="n">_known_primes</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">d</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="ow">not</span> <span class="p">(</span><span class="n">d</span> <span class="o">%</span> <span class="mi">2</span><span class="p">):</span>
+        <span class="n">d</span><span class="p">,</span> <span class="n">s</span> <span class="o">=</span> <span class="n">d</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">,</span> <span class="n">s</span> <span class="o">+</span> <span class="mi">1</span>
+    <span class="c1"># Returns exact according to http://primes.utm.edu/prove/prove2_3.html</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">1373653</span><span class="p">:</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">_try_composite</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">25326001</span><span class="p">:</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">_try_composite</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">118670087467</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">3215031751</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">_try_composite</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">2152302898747</span><span class="p">:</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">_try_composite</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">3474749660383</span><span class="p">:</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">_try_composite</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">341550071728321</span><span class="p">:</span>
+        <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">_try_composite</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">17</span><span class="p">))</span>
+    <span class="c1"># otherwise</span>
+    <span class="k">return</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">_try_composite</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+                   <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">is_prime</span><span class="o">.</span><span class="n">_known_primes</span><span class="p">[:</span><span class="n">_precision_for_huge_n</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="prime_between"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.prime_between">[docs]</a><span class="k">def</span> <span class="nf">prime_between</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">):</span>
+    <span class="n">candidate</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="p">(</span><span class="n">is_prime</span><span class="p">(</span><span class="n">candidate</span><span class="p">)):</span>
+        <span class="n">candidate</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">e</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">candidate</span></div>
+
+<div class="viewcode-block" id="exp"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.exp">[docs]</a><span class="k">def</span> <span class="nf">exp</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+	<span class="n">r</span> <span class="o">=</span> <span class="mi">1</span>
+	<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+		<span class="n">r</span> <span class="o">=</span> <span class="p">((</span><span class="n">r</span><span class="o">*</span><span class="n">r</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">a</span> <span class="k">if</span> <span class="p">(</span><span class="n">n</span> <span class="o">&gt;&gt;</span> <span class="n">i</span><span class="p">)</span> <span class="o">&amp;</span> <span class="mh">0x1</span> <span class="k">else</span> <span class="mi">1</span><span class="p">))</span> <span class="o">%</span> <span class="n">N</span>
+
+	<span class="k">return</span> <span class="n">r</span> <span class="o">%</span> <span class="n">N</span></div>
+
+<div class="viewcode-block" id="in_Z_N_star"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.in_Z_N_star">[docs]</a><span class="k">def</span> <span class="nf">in_Z_N_star</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">N</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determines whether a is in Z_n^*.</span>
+
+<span class="sd">    :param a: number to be checked</span>
+<span class="sd">    :param N: N</span>
+<span class="sd">    :return: Boolean</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">a</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">a</span><span class="o">&gt;=</span><span class="n">N</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="k">return</span><span class="p">(</span><span class="n">egcd</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">N</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="random_Z_N_star"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.random_Z_N_star">[docs]</a><span class="k">def</span> <span class="nf">random_Z_N_star</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the a random element in Z_N^*.</span>
+
+<span class="sd">    :param N: N</span>
+<span class="sd">    :return: random element</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">candidate</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">while</span> <span class="ow">not</span> <span class="p">(</span><span class="n">in_Z_N_star</span><span class="p">(</span><span class="n">candidate</span><span class="p">,</span> <span class="n">N</span><span class="p">)):</span>
+        <span class="n">candidate</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">candidate</span></div>
+
+<div class="viewcode-block" id="random_Z_N"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.random_Z_N">[docs]</a><span class="k">def</span> <span class="nf">random_Z_N</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns the a random element in Z_N.</span>
+
+<span class="sd">    :param N: N</span>
+<span class="sd">    :return: random element</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="find_generator_Z_N_star"><a class="viewcode-back" href="../../playcrypt.tools.html#playcrypt.tools.find_generator_Z_N_star">[docs]</a><span class="k">def</span> <span class="nf">find_generator_Z_N_star</span><span class="p">(</span><span class="n">N</span><span class="p">,</span> <span class="n">pstatements</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a generator of Z_N_star.</span>
+
+<span class="sd">    :param N: N</span>
+<span class="sd">    :return: The generator.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">if</span> <span class="n">N</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">is_prime</span><span class="p">(</span><span class="n">N</span><span class="p">):</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="mi">2</span>
+        <span class="k">while</span> <span class="n">g</span> <span class="o">&lt;=</span> <span class="n">N</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="n">curr</span> <span class="o">=</span> <span class="p">(</span><span class="n">g</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span>
+            <span class="n">works</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">order</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">curr</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">works</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">curr</span> <span class="o">=</span> <span class="p">(</span><span class="n">curr</span><span class="o">*</span><span class="n">g</span><span class="p">)</span> <span class="o">%</span> <span class="n">N</span>
+            <span class="k">if</span> <span class="n">works</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">g</span>
+            <span class="k">elif</span> <span class="n">pstatements</span><span class="p">:</span>
+                <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Not &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+            <span class="n">g</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">ZNstar</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">N</span><span class="p">)</span> <span class="k">if</span> <span class="n">in_Z_N_star</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">N</span><span class="p">)])</span>
+
+
+
+        <span class="k">for</span> <span class="n">g</span> <span class="ow">in</span> <span class="n">ZNstar</span><span class="p">:</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">exp</span><span class="p">(</span><span class="n">g</span><span class="p">,</span><span class="n">i</span><span class="p">,</span><span class="n">N</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="n">N</span><span class="p">)])</span>
+            <span class="n">S</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">S</span> <span class="k">if</span> <span class="n">in_Z_N_star</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">N</span><span class="p">)])</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">S</span><span class="o">.</span><span class="n">symmetric_difference</span><span class="p">(</span><span class="n">ZNstar</span><span class="p">))</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">g</span>
+            <span class="k">if</span> <span class="n">pstatements</span><span class="p">:</span>
+                <span class="nb">print</span> <span class="p">(</span><span class="s1">&#39;Not &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">g</span><span class="p">))</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, UCSD CSE 107 Teams of Time Immemorial.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
