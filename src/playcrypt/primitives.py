@@ -32,7 +32,7 @@ def AES(k, m):
     :param m: should be multiple of 128 bits long
     :return: cipher text
     """
-    cipher = AES_C.new(k)
+    cipher = AES_C.new(k, mode=AES_C.MODE_ECB)
     return cipher.encrypt(bytes(m))
 
 
@@ -44,7 +44,7 @@ def AES_I(k, m):
     :param m: should be multiple of 128 bits long
     :return: plaintext
     """
-    cipher = AES_C.new(k)
+    cipher = AES_C.new(k, mode=AES_C.MODE_ECB)
     return cipher.decrypt(bytes(m))
 
 def rsa_keygen(len):
