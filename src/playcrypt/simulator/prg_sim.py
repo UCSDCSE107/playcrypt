@@ -16,7 +16,9 @@ class PRGSim(BaseSim):
         :return: 1 for success and 0 for failure.
         """
         self.game.initialize(world)
-        return self.game.finalize(self.adversary(self.game.challenge))
+        return self.game.finalize(self.adversary(
+                                    self.game.challenge, self.game.input_len
+                                ))
 
     def compute_success_ratio(self, world, trials=1000):
         """
