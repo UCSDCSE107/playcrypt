@@ -90,6 +90,12 @@ def string_to_int(s):
         x += ord(s[i]) << (len(s)-1 - i) * 8
     return x
 
+def string_to_binary(s):
+    ret = ''
+    for i in range(len(s)):
+        ret = ret+ bin(string_to_int(s[i]))[2:] + '||'
+    return ret[:-2]
+
 
 def int_to_string(x, l=None):
     """
