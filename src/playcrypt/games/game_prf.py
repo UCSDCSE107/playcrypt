@@ -2,7 +2,7 @@ import random
 
 from playcrypt.games.game import Game
 from playcrypt.primitives import random_string
-
+from playcrypt.ideal.block_cipher import BlockCipher
 
 class GamePRF(Game):
     """
@@ -10,7 +10,7 @@ class GamePRF(Game):
     pseudo-random function or not. Adversaries playing this game have
     access to an fn oracle.
     """
-    def __init__(self, required_queries, prf, key_len, input_len, output_len=None):
+    def __init__(self, required_queries, prf, key_len, input_len, output_len=None, sub_BC_block_len=None):
         """
         :param prf: This must be a callable python function that takes two
                     inputs, k and x where k is a key of length key_len and x is a
@@ -31,9 +31,13 @@ class GamePRF(Game):
             self.output_len = input_len
         else:
             self.output_len = output_len
+        self.sub_BC_block_len = None
+        if sub_BC_block_len != None:
+            self.sub_BC_block_len = sub_BC_block_len
         self.key = ''
         self.messages = {}
         self.world = None
+        self.block_cipher = None
 
     def initialize(self, world=None):
         """
@@ -51,6 +55,8 @@ class GamePRF(Game):
         if world is None:
             world = random.randrange(0, 2, 1)
         self.world = world
+        if self.sub_BC_block_len != None:
+            self.block_cipher = BlockCipher(self.key_len, self.sub_BC_block_len)
 
     def fn(self, m):
         """
@@ -64,7 +70,7 @@ class GamePRF(Game):
                  in the random world.
         """
         if len(m) is not self.input_len:
-            raise ValueError("Message is of length " + str(len(m)) + \
+            raise ValueError("Message is of length " + str(len(m)) + 
                     " but should be " + str(self.input_len) + ".")
 
         self.answered_queries += 1
@@ -73,7 +79,7 @@ class GamePRF(Game):
                 self.messages[m] = random_string(self.output_len)
             return self.messages[m]
         else:
-            return self.prf(self.key, m)
+            return self.prf(self.key, m, self.block_cipher)
 
     def finalize(self, guess):
         """
