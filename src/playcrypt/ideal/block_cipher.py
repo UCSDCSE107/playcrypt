@@ -59,10 +59,10 @@ class BlockCipher():
 
         return self.ciphers[(key, block)]
 
-    def decrypt(self, key, cipher):
+    def decode(self, key, cipher):
         """
-        This is a simulated decryption function. Use of the correct key and
-        cipher text will result in correct decryption. The cipher and key must
+        This is a simulated decoding function. Use of the correct key and
+        cipher text will result in correct decoding. The cipher and key must
         have correct lengths.
 
         :param key: Key to use for simulated decryption, this must be of length,

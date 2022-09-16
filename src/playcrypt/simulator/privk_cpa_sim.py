@@ -7,6 +7,10 @@ class PrivKCPASim(BaseSim):
     game with an Adversary and allows you to compute an approximate advantage.
     """
 
+    def __init__(self, game, adv, probCorrect=None) : 
+        super(PrivKCPASim, self).__init__(game, adv)
+        self.probCorrect = probCorrect
+
     def run(self, b):
         """
         Runs the game in a specific world.
@@ -35,8 +39,13 @@ class PrivKCPASim(BaseSim):
     def compute_advantage(self, trials):
         """
         Adv = Pr[Right => 1] - Pr[Left => 1]
-
+ 
+        Unless probCorrect == True
+        Adv = Pr[guess = challenge] 
         :return: Approximate advantage computed using the above equation.
         """
 
-        return self.compute_success_ratio(1,trials) - (1 - self.compute_success_ratio(0,trials))
+        if self.probCorrect == True :
+            return .5*self.compute_success_ratio(1,trials) +  .5 * self.compute_success_ratio(0,trials)
+        else : 
+            return self.compute_success_ratio(1,trials) - (1 - self.compute_success_ratio(0,trials))

@@ -93,7 +93,9 @@ def string_to_int(s):
 def string_to_binary(s):
     ret = ''
     for i in range(len(s)):
-        ret = ret+ bin(string_to_int(s[i]))[2:] + '||'
+        tmp = bin(string_to_int(s[i]))[2:]
+        tmp = '0'*(8-len(tmp)) + tmp
+        ret = ret+ tmp + '||'
     return ret[:-2]
 
 
