@@ -1,6 +1,6 @@
 from playcrypt.simulator.base_sim import BaseSim
 
-class INDCCASim(BaseSim):
+class PKECCASim(BaseSim):
     def run(self, b):
         pk = self.game.initialize(b)
         return self.game.finalize(self.adversary(self.game.lr, pk, self.game.dec))

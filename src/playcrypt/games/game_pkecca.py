@@ -1,7 +1,7 @@
 import sys, random
 from playcrypt.games.game import Game
 
-class GameINDCCA(Game):
+class GamePKECCA(Game):
     def __init__(self, min_lr_queries, max_lr_queries, min_dec_queries, max_dec_queries, encrypt, decrypt, k_gen):
         super(GameINDCCA, self).__init__()
         self.min_lr_queries = min_lr_queries
