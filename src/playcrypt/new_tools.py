@@ -51,3 +51,11 @@ def VOL(j):
         Y = bin(string_to_int(Y))
         return Y[2: l+2]
     return vol
+
+def xor_binary_strings(s1, s2):
+    if len(s1) < len(s2):
+        s1 = s1 + ("0" * (len(s2) - len(s1)))
+    elif len(s2) < len(s1):
+        s2 = s2 + ("0" * (len(s1) - len(s2)))
+
+    return "".join(chr((ord(x) ^ ord(y)) + ord('0')) for x, y in zip(s1, s2))
