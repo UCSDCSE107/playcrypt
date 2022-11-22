@@ -42,14 +42,16 @@ def VOL(j):
         Y = ''
         h = SHA256.new()
         l = l % (2**64)
-        h.update(bytes(int_to_string(j,8) + int_to_string(l,8) + int_to_string(x), 'utf-8'))
-        P = h.hexdigest()
+        h.update(bytes(int_to_string(j,8) + int_to_string(l,8) + int_to_string(x), 'latin-1'))
+        P = h.digest().decode('latin-1')
+
         for i in range(n):
             i = i % (2**64)
-            h.update(bytes(int_to_string(i,8) + P, 'utf-8'))
-            Y += h.hexdigest()
-        Y = bin(string_to_int(Y))
-        return Y[2: l+2]
+            h.update(bytes(int_to_string(i,8) + P, 'latin-1'))
+            Y += h.digest().decode('latin-1')
+
+        Y = ''.join('{0:08b}'.format(ord(c), 'b') for c in Y)
+        return Y[:l]
     return vol
 
 def xor_binary_strings(s1, s2):

@@ -49,9 +49,13 @@ class GamePKECCA(Game):
         self.message_pairs += [(l, r)]
 
         if self.b == 1:
-            return self.encrypt(self.pk, r)
+            C = self.encrypt(self.pk, r)
+            self.ciphertexts += [C]
+            return C
         else:
-            return self.encrypt(self.pk, l)
+            C = self.encrypt(self.pk, l)
+            self.ciphertexts += [C]
+            return C
 
     def dec(self, C):
         if C in self.ciphertexts:
@@ -70,7 +74,7 @@ class GamePKECCA(Game):
         """
         
         lr_queries = len(self.message_pairs)
-        dec_queries = len(self.ciphertexts)
+        dec_queries = len(self.ciphertexts) - lr_queries
         if lr_queries < self.min_lr_queries or lr_queries > self.max_lr_queries:
             return False
         if dec_queries < self.min_dec_queries or dec_queries > self.max_dec_queries:
