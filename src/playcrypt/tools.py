@@ -155,6 +155,9 @@ def bitwise_complement_string(s):
 
 # https://rosettacode.org/wiki/Miller%E2%80%93Rabin_primality_test#Python:_Proved_correct_up_to_large_N
 def is_prime(n, _precision_for_huge_n=16):
+    if(n == 0 or n == 1):
+        return False
+        
     def _try_composite(a, d, n, s):
         if pow(a, d, n) == 1:
             return False
