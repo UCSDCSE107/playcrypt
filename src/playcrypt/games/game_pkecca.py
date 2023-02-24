@@ -3,7 +3,7 @@ from playcrypt.games.game import Game
 
 class GamePKECCA(Game):
     def __init__(self, min_lr_queries, max_lr_queries, min_dec_queries, max_dec_queries, encrypt, decrypt, k_gen):
-        super(GameINDCCA, self).__init__()
+        super(GamePKECCA, self).__init__()
         self.min_lr_queries = min_lr_queries
         self.max_lr_queries = max_lr_queries
         self.min_dec_queries = min_dec_queries
