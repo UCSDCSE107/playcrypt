@@ -95,7 +95,7 @@ def int_to_string(x, l=None):
     """
     Converts a number to a string with length l
 
-    :param x: A number between 0 and 2 ** l
+    :param x: A number between 0 and 256 ** l
     :param l: The length of the string to be returned
     :return: string
     """
