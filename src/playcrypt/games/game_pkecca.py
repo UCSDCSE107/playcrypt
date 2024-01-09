@@ -45,7 +45,11 @@ class GamePKECCA(Game):
 
         if (l, r) in self.message_pairs:
             return None
-			
+
+        if len(l) != len(r):
+            raise ValueError("The left and right messages must be of the same length.")
+            return None
+
         self.message_pairs += [(l, r)]
 
         if self.b == 1:
@@ -72,7 +76,6 @@ class GamePKECCA(Game):
                       or 1.
         :return: True if guess is correct, false otherwise.
         """
-        
         lr_queries = len(self.message_pairs)
         dec_queries = len(self.ciphertexts) - lr_queries
         if lr_queries < self.min_lr_queries or lr_queries > self.max_lr_queries:
