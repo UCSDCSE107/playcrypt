@@ -8,7 +8,7 @@ class GameUFCMA(Game):
     This game is meant to test the security of message authentication schemes.
     Adversaries playing this game have access to a tag and verify oracle.
     """
-    def __init__(self, _max_queries, _vf_queries, _tag, _verify, key_len, key_gen=None):
+    def __init__(self, _max_queries, _tag, _verify, key_len, key_gen=None):
         """
         :param _tag: This must be a callable python function that returns
                      message tags and takes in a key and message (key should
@@ -20,7 +20,6 @@ class GameUFCMA(Game):
         """
         super(GameUFCMA, self).__init__()
         self.max_queries, self._tag, self._verify, self.key_len = _max_queries, _tag, _verify, key_len
-        self.vf_queries = _vf_queries
         self.key = ''
         self.messages = []
         self.key_gen = key_gen
@@ -37,7 +36,6 @@ class GameUFCMA(Game):
             self.key = self.key_gen()
         self.messages = []
         self.win = False
-        self.vf_attempts = 0
 
     def tag(self, message):
         """
@@ -51,29 +49,22 @@ class GameUFCMA(Game):
         return t
 
 
-    def verify(self, m, t):
-        self.vf_attempts += 1
-        if m is None or t is None:
-            return False
-        if m in self.messages:
-            raise ValueError("The queried message is already in the set S.")
-            return False
-        result = self._verify(self.key, m, t)
-        if result == 1:
-            self.win = True
-        return result
-
-
-    def finalize(self, return_value):
+    def finalize(self, ct):
         """
         This method is usually called automatically by the simulator class
         to determine whether or not the adversary won the game.
+        :ct: (message, tag)
         :return: True if successful, False otherwise.
         """
-        if self.vf_attempts > self.vf_queries:
-            raise ValueError("The adversary must make at most " + str(self.vf_queries) + " Verification queries.")
-	
+        message = ct[0]
+        tag = ct[1]
+        if message is None or tag is None:
+            return False
+			
         if len(self.messages) > self.max_queries:
-            raise ValueError("The adversary must make at most " + str(self.max_queries) + " Tag queries.")
+            raise ValueError("The adversary must make at most " + str(self.max_queries) + " LR queries.")
 
+        d = self._verify(self.key, message, tag)
+        if message not in self.messages and d == 1:
+            self.win = True
         return self.win

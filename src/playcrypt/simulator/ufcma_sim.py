@@ -15,7 +15,7 @@ class UFCMASim(BaseSim):
         :return: 1 for success and 0 for failure.
         """
         self.game.initialize()
-        return self.game.finalize(self.adversary(self.game.tag, self.game.verify))
+        return self.game.finalize(self.adversary(self.game.tag))
 
     def compute_success_ratio(self, n=1000):
         """

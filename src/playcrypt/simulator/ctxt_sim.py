@@ -13,7 +13,8 @@ class CTXTSim(BaseSim):
         :return: True for success and False for failure.
         """
         self.game.initialize()
-        return self.game.finalize(self.adversary(self.game.enc, self.game.verify))
+        return self.game.finalize(
+        self.adversary(self.game.enc))
 
     def compute_success_ratio(self, trials=1000):
         """
