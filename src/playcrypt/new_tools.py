@@ -12,7 +12,7 @@ def K_rsa(k):
     # Generate N, p, q
     while True:
         # Let p be a prime such that 2**(k/2-1) <= p <= 2**(k/2)
-        p = prime_between(2**(k/2-1), 2**(k/2))
+        p = prime_between(2**(int(k/2-1)), 2**(int(k/2)))
         # Let q be a prime such that 2**(k-1) <= p*q <= 2**k
         left = 2**(k-1) // p
         right = 2**k // p

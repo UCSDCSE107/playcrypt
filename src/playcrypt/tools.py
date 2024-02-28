@@ -195,10 +195,10 @@ def is_prime(n, _precision_for_huge_n=16):
 
 
 def prime_between(s, e):
-    candidate = random.randint(s, e)
+    candidate = random.randint(int(s), int(e))
 
     while not (is_prime(candidate)):
-        candidate = random.randint(s, e)
+        candidate = random.randint(int(s), int(e))
 
     return candidate
 
