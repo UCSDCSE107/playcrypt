@@ -8,7 +8,7 @@ class GameKR(Game):
     win in this instantiation of KR you must make at least one oracle query.
     Adversaries have access to an fn oracle.
     """
-    def __init__(self, queries, encrypt, key_len, block_len):
+    def __init__(self, encrypt, key_len, block_len):
         """
         :param encrypt: This must be a callable python function that takes two
                         inputs, k and x where k is a key of length key_len and
@@ -20,7 +20,7 @@ class GameKR(Game):
                           that will be used in this game.
         """
         super(GameKR,self).__init__()
-        self.queries, self.encrypt, self.key_len, self.block_len = queries, encrypt, key_len, block_len
+        self.encrypt, self.key_len, self.block_len = encrypt, key_len, block_len
         self.key = ''
         self.count = 0
         self.messages = {}
@@ -61,7 +61,7 @@ class GameKR(Game):
             for j in range(i):
                 if self.messages[i] == self.messages[j]:
                     win = False
-        if self.count != self.queries:
-            win = False
+        #if self.count != self.queries:
+            #win = False
             #raise ValueError("The adversary makes a wrong number of queries.")
         return win

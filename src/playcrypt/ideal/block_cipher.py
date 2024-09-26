@@ -14,7 +14,7 @@ class BlockCipher():
 
         b = BlockCipher(16, 12)
         key = random_string(16)
-        cipher_text = b.encrypt(key, "Hello World!")
+        cipher_text = b.encode(key, "Hello World!")
         decrypted_message = b.decrypt(key, cipher_text)
 
         print decrypted_message
@@ -32,15 +32,15 @@ class BlockCipher():
         self.messages = {}
         self.ciphers = {}
 
-    def encrypt(self, key, block):
+    def encode(self, key, block):
         """
-        This is a simulated encryption function. Simply use a key and message
+        This is a simulated encoding function. Simply use a key and message
         with the proper block length.
 
-        :param key: Key to use for simulated encryption, so this must be of
+        :param key: Key to use for simulated encoding, so this must be of
         length
                     ``self.key_len``.
-        :param block: Message to be encrypted, so this must be of length
+        :param block: Message to be encoded, so this must be of length
                         ``self.block_len``.
         :return: The cipher text for the block or ``None`` if the length
                  parameters are not met.
@@ -59,10 +59,10 @@ class BlockCipher():
 
         return self.ciphers[(key, block)]
 
-    def decrypt(self, key, cipher):
+    def decode(self, key, cipher):
         """
-        This is a simulated decryption function. Use of the correct key and
-        cipher text will result in correct decryption. The cipher and key must
+        This is a simulated decoding function. Use of the correct key and
+        cipher text will result in correct decoding. The cipher and key must
         have correct lengths.
 
         :param key: Key to use for simulated decryption, this must be of length,

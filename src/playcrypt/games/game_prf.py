@@ -3,7 +3,6 @@ import random
 from playcrypt.games.game import Game
 from playcrypt.primitives import random_string
 
-
 class GamePRF(Game):
     """
     This game is used to test whether a candidate function is a good
@@ -35,6 +34,7 @@ class GamePRF(Game):
         self.messages = {}
         self.world = None
 
+
     def initialize(self, world=None):
         """
         This is the initialize method and is part of GamePRF as defined in the
@@ -64,7 +64,7 @@ class GamePRF(Game):
                  in the random world.
         """
         if len(m) is not self.input_len:
-            raise ValueError("Message is of length " + str(len(m)) + \
+            raise ValueError("Message is of length " + str(len(m)) + 
                     " but should be " + str(self.input_len) + ".")
 
         self.answered_queries += 1
