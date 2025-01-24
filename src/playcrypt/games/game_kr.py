@@ -24,7 +24,7 @@ class GameKR(Game):
         self.key = ''
         self.count = 0
         self.messages = {}
-        self.cyphers = {}
+        self.ciphertexts = {}
         pass
 
     def initialize(self):
@@ -35,13 +35,13 @@ class GameKR(Game):
         self.key = random_string(self.key_len)
         self.count = 0
         self.messages = {}
-        self.cyphers = {}
+        self.ciphertexts = {}
 
     def fn(self, m):
         self.messages[self.count] = m
-        self.cyphers[self.count] = self.encrypt(self.key, m)
+        self.ciphertexts[self.count] = self.encrypt(self.key, m)
         self.count += 1
-        return self.cyphers[self.count-1]
+        return self.ciphertexts[self.count-1]
 
     def finalize(self, key_guess):
         """
@@ -56,12 +56,12 @@ class GameKR(Game):
 
         win = True
         for i in range(self.count):
-            if self.encrypt(key_guess, self.messages[i]) != self.cyphers[i]:
+            if self.encrypt(key_guess, self.messages[i]) != self.ciphertexts[i]:
                 win = False
             for j in range(i):
                 if self.messages[i] == self.messages[j]:
                     win = False
         if self.count != self.queries:
             win = False
-            #raise ValueError("The adversary makes a wrong number of queries.")
+            print(f"Warning: The adversary was supposed to make exactly {self.queries} queries, but instead it made {self.count}. Setting win = False.")
         return win
